@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlayLabs Studio — Intern Handbook 001</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#14120D;
+  --bg-raised:#1C1914;
+  --bg-card:#201C16;
+  --ink:#ECE6D8;
+  --ink-dim:#A39B89;
+  --ink-faint:#6E6757;
+  --accent:#CDF94E;
+  --accent-2:#FF8A3D;
+  --accent-3:#5BC8FF;
+  --line:rgba(236,230,216,0.12);
+  --line-strong:rgba(236,230,216,0.22);
+  --good:#9CE37D;
+  --bad:#FF6B5E;
+  --display:'Bricolage Grotesque',sans-serif;
+  --body:'Newsreader',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --maxw:1080px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:84px;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:18px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* grain overlay */
+body::before{
+  content:"";
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(205,249,78,0.3);transition:border-color .15s,color .15s;}
+a:hover{border-color:var(--accent);}
+
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1.05;letter-spacing:-0.02em;}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(20,18,13,0.82);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex;align-items:center;gap:20px;height:60px;}
+.brand{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);white-space:nowrap;}
+.brand b{color:var(--accent);}
+.topnav{display:flex;gap:18px;margin-left:auto;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;flex-wrap:wrap;}
+.topnav a{color:var(--ink-dim);border:none;}
+.topnav a:hover{color:var(--accent);}
+.progwrap{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);}
+.progbar{width:90px;height:6px;border-radius:6px;background:var(--line);overflow:hidden;}
+.progbar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .4s ease;}
+@media(max-width:860px){.topnav{display:none;}}
+
+/* ---------- hero ---------- */
+.hero{padding:90px 0 64px;border-bottom:1px solid var(--line);position:relative;}
+.hero .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:26px;display:flex;gap:14px;align-items:center;}
+.hero .kicker::before{content:"";width:38px;height:1px;background:var(--accent);display:inline-block;}
+.hero h1{font-size:clamp(48px,8vw,108px);font-weight:800;margin:0 0 8px;letter-spacing:-0.04em;}
+.hero h1 .lab{color:var(--accent);}
+.hero .sub{font-size:clamp(22px,3vw,30px);font-family:var(--display);font-weight:600;color:var(--ink);max-width:760px;line-height:1.12;margin:18px 0 0;letter-spacing:-0.02em;}
+.hero .lede{font-size:20px;color:var(--ink-dim);max-width:680px;margin-top:24px;}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:38px;}
+.tag{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:7px 13px;border:1px solid var(--line-strong);border-radius:100px;color:var(--ink-dim);}
+.tag b{color:var(--ink);}
+
+.reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;}
+@keyframes rise{to{opacity:1;transform:none;}}
+.d1{animation-delay:.05s}.d2{animation-delay:.13s}.d3{animation-delay:.21s}.d4{animation-delay:.29s}.d5{animation-delay:.37s}
+
+/* ---------- sections ---------- */
+section{padding:72px 0;border-bottom:1px solid var(--line);}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:8px;}
+.sec-num{font-family:var(--mono);font-size:14px;color:var(--accent);letter-spacing:.1em;}
+h2{font-size:clamp(30px,4.5vw,46px);margin:0;}
+.sec-intro{font-size:20px;color:var(--ink-dim);max-width:720px;margin:18px 0 38px;}
+
+.editor-note{
+  border-left:3px solid var(--accent-2);
+  background:linear-gradient(90deg,rgba(255,138,61,0.07),transparent 80%);
+  padding:18px 22px;border-radius:0 10px 10px 0;margin:30px 0;
+}
+.editor-note .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);display:block;margin-bottom:8px;}
+.editor-note p{margin:0;font-size:16.5px;color:var(--ink);}
+.editor-note p+p{margin-top:10px;}
+
+/* cards grid */
+.grid{display:grid;gap:18px;}
+.g2{grid-template-columns:repeat(2,1fr);}
+.g3{grid-template-columns:repeat(3,1fr);}
+@media(max-width:760px){.g2,.g3{grid-template-columns:1fr;}}
+
+.card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:border-color .2s,transform .2s;}
+.card:hover{border-color:var(--line-strong);transform:translateY(-2px);}
+.card h3{font-size:21px;margin:0 0 6px;}
+.card h4{font-size:17px;margin:0 0 4px;}
+.card p{margin:0;color:var(--ink-dim);font-size:16px;}
+.card .role-tool{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.04em;margin-bottom:10px;display:block;}
+.card ul{margin:10px 0 0;padding-left:18px;color:var(--ink-dim);font-size:15.5px;}
+.card ul li{margin:3px 0;}
+
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;counter-reset:step;}
+@media(max-width:760px){.loop{grid-template-columns:1fr;}}
+.loop .step{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 18px 18px;position:relative;}
+.loop .step .n{font-family:var(--mono);font-size:12px;color:var(--accent);}
+.loop .step h4{font-size:19px;margin:6px 0 4px;}
+.loop .step p{font-size:14.5px;color:var(--ink-dim);margin:0;}
+
+/* tool resource list */
+.tool{display:flex;gap:16px;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--bg-card);align-items:flex-start;transition:border-color .2s;}
+.tool:hover{border-color:var(--line-strong);}
+.tool .ic{font-family:var(--display);font-weight:800;font-size:20px;width:46px;height:46px;flex:0 0 46px;border-radius:11px;display:grid;place-items:center;background:rgba(205,249,78,0.1);color:var(--accent);border:1px solid rgba(205,249,78,0.22);}
+.tool .body{flex:1;min-width:0;}
+.tool .body .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.tool .body h4{font-size:19px;margin:0;}
+.tool .pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:100px;}
+.pill.req{background:rgba(205,249,78,0.14);color:var(--accent);}
+.pill.opt{background:rgba(110,103,87,0.2);color:var(--ink-dim);}
+.pill.free{background:rgba(156,227,125,0.14);color:var(--good);}
+.tool .body p{margin:7px 0 0;font-size:15.5px;color:var(--ink-dim);}
+.tool .body .links{margin-top:9px;font-family:var(--mono);font-size:13px;display:flex;gap:16px;flex-wrap:wrap;}
+
+/* checklist */
+.checklist{list-style:none;padding:0;margin:0;}
+.checklist li{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:flex-start;}
+.checklist li:last-child{border-bottom:none;}
+.checklist input[type=checkbox]{appearance:none;-webkit-appearance:none;width:24px;height:24px;flex:0 0 24px;border:2px solid var(--line-strong);border-radius:7px;margin-top:2px;cursor:pointer;position:relative;transition:.15s;background:transparent;}
+.checklist input[type=checkbox]:hover{border-color:var(--accent);}
+.checklist input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent);}
+.checklist input[type=checkbox]:checked::after{content:"";position:absolute;left:7px;top:2px;width:6px;height:12px;border:solid #14120D;border-width:0 3px 3px 0;transform:rotate(45deg);}
+.checklist .ctxt{flex:1;}
+.checklist .ctxt b{font-family:var(--display);font-weight:600;font-size:18px;display:block;}
+.checklist .ctxt span{color:var(--ink-dim);font-size:15.5px;}
+.checklist li.done .ctxt b{color:var(--ink-faint);text-decoration:line-through;}
+
+.subhead{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:34px 0 14px;}
+
+/* kill check */
+.killcheck{background:var(--bg-raised);border:1px solid var(--line-strong);border-radius:18px;padding:28px;}
+.kc-q{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line);}
+.kc-q:last-of-type{border-bottom:none;}
+.kc-toggle{flex:0 0 auto;display:flex;border:1px solid var(--line-strong);border-radius:9px;overflow:hidden;font-family:var(--mono);font-size:12px;}
+.kc-toggle button{background:transparent;border:none;color:var(--ink-dim);padding:8px 14px;cursor:pointer;font-family:var(--mono);font-size:12px;transition:.15s;}
+.kc-toggle button.yes.on{background:var(--good);color:#14120D;}
+.kc-toggle button.no.on{background:var(--bad);color:#14120D;}
+.kc-q .qt{flex:1;}
+.kc-q .qt b{font-family:var(--display);font-weight:600;font-size:17px;display:block;}
+.kc-q .qt span{color:var(--ink-dim);font-size:15px;}
+.kc-result{margin-top:24px;padding:22px;border-radius:14px;background:var(--bg-card);border:1px solid var(--line);display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+.kc-score{font-family:var(--display);font-weight:800;font-size:54px;line-height:1;}
+.kc-verdict{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border-radius:100px;}
+.kc-msg{flex:1;min-width:240px;color:var(--ink-dim);font-size:16px;}
+
+/* week timeline */
+.week{display:grid;grid-template-columns:120px 1fr;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-card);margin-bottom:16px;}
+@media(max-width:680px){.week{grid-template-columns:1fr;}}
+.week .wno{background:var(--bg-raised);padding:22px;border-right:1px solid var(--line);}
+@media(max-width:680px){.week .wno{border-right:none;border-bottom:1px solid var(--line);}}
+.week .wno .num{font-family:var(--display);font-weight:800;font-size:40px;color:var(--accent);line-height:.9;}
+.week .wno .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin-top:6px;}
+.week .wbody{padding:22px;}
+.week .wbody h4{font-size:22px;margin:0 0 10px;}
+.week .wbody .goals{color:var(--ink-dim);font-size:16px;margin:0 0 14px;}
+.week .win{display:flex;gap:12px;align-items:center;padding-top:12px;border-top:1px dashed var(--line-strong);}
+.week .win .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+.week .win label{display:flex;gap:10px;align-items:center;cursor:pointer;font-family:var(--display);font-weight:600;font-size:16px;}
+.week .win input{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:2px solid var(--line-strong);border-radius:6px;cursor:pointer;position:relative;}
+.week .win input:checked{background:var(--accent);border-color:var(--accent);}
+.week .win input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:11px;border:solid #14120D;border-width:0 3px 3px 0;transform:rotate(45deg);}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media(max-width:680px){.rules{grid-template-columns:1fr;}}
+.rule{display:flex;gap:14px;align-items:baseline;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;}
+.rule .rn{font-family:var(--display);font-weight:800;font-size:26px;color:var(--accent-2);line-height:1;}
+.rule p{margin:0;font-family:var(--display);font-weight:600;font-size:18px;}
+
+.callout{border:1px solid var(--line-strong);border-radius:14px;padding:24px;background:var(--bg-raised);margin:22px 0;}
+.callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:10px;}
+.callout p{margin:0 0 8px;font-size:16.5px;}
+.callout ul{margin:8px 0 0;padding-left:20px;color:var(--ink-dim);}
+
+/* decide table */
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:680px){.twocol{grid-template-columns:1fr;}}
+.decide-box{border-radius:14px;padding:22px;border:1px solid var(--line);}
+.decide-box.keep{background:rgba(156,227,125,0.06);border-color:rgba(156,227,125,0.3);}
+.decide-box.kill{background:rgba(255,107,94,0.06);border-color:rgba(255,107,94,0.3);}
+.decide-box h4{font-size:20px;margin:0 0 12px;}
+.decide-box.keep h4{color:var(--good);}
+.decide-box.kill h4{color:var(--bad);}
+.decide-box ul{margin:0;padding-left:18px;color:var(--ink-dim);font-size:16px;}
+.decide-box ul li{margin:6px 0;}
+
+/* resources */
+.res-group h3{font-size:20px;margin:28px 0 12px;color:var(--ink);}
+.res-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(max-width:680px){.res-list{grid-template-columns:1fr;}}
+.res{display:flex;justify-content:space-between;gap:12px;padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:var(--bg-card);font-size:15.5px;align-items:center;}
+.res:hover{border-color:var(--line-strong);}
+.res .nm{font-family:var(--display);font-weight:600;}
+.res .nm small{display:block;font-family:var(--body);font-weight:400;color:var(--ink-faint);font-size:13px;}
+.res a{font-family:var(--mono);font-size:12.5px;white-space:nowrap;}
+
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px;}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:10px 16px;border-radius:9px;border:1px solid var(--line-strong);background:transparent;color:var(--ink-dim);cursor:pointer;transition:.15s;}
+.btn:hover{border-color:var(--accent);color:var(--accent);}
+
+footer{padding:60px 0;text-align:center;color:var(--ink-faint);}
+footer .big{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,52px);color:var(--ink);letter-spacing:-0.03em;margin-bottom:14px;}
+footer .big b{color:var(--accent);}
+footer p{font-family:var(--mono);font-size:12px;letter-spacing:.08em;}
+
+::selection{background:var(--accent);color:#14120D;}
+
+@media print{
+  .topbar,.toolbar{display:none;}
+  body{background:#fff;color:#111;font-size:12pt;}
+  section{page-break-inside:avoid;border-color:#ccc;}
+  a{color:#111;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="brand"><b>PlayLabs</b> Studio · Handbook 001</span>
+    <nav class="topnav">
+      <a href="#loop">Loop</a>
+      <a href="#tools">Tools</a>
+      <a href="#killcheck">Kill Check</a>
+      <a href="#deliverables">Deliverables</a>
+      <a href="#weeks">Weeks</a>
+      <a href="#resources">Resources</a>
+    </nav>
+    <div class="progwrap">
+      <div class="progbar"><i id="progFill"></i></div>
+      <span id="progPct">0%</span>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker reveal d1">Builder Apprenticeship · v1.2</div>
+    <h1 class="reveal d2">Play<span class="lab">Labs</span><br>Studio</h1>
+    <p class="sub reveal d3">Build and launch a real software product with AI — in six weeks.</p>
+    <p class="lede reveal d4">This is not a coding class or a business class. It's a builder apprenticeship. You'll learn a repeatable loop for turning problems into shipped products, then prove it by shipping one yourself. Everything you need — process, tools, links — is on this page.</p>
+    <div class="meta reveal d5">
+      <span class="tag">For: <b>the intern</b></span>
+      <span class="tag">Mentor: <b>Reynold</b></span>
+      <span class="tag">Duration: <b>6 weeks</b></span>
+      <span class="tag">Outcome: <b>1 shipped product</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- MISSION -->
+<section id="mission">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">00</span><h2>The Mission</h2></div>
+    <p class="sec-intro">Build and launch a useful product using AI, and learn a process you can repeat on your own. By the end, you should be someone who turns ideas into working software — and knows when to keep going and when to quit.</p>
+
+    <div class="subhead">What success looks like — check these off as they become true</div>
+    <ul class="checklist" data-group="success">
+      <li><input type="checkbox" id="s1"><span class="ctxt"><b>I can find problems worth solving</b><span>Not ideas — problems. People in pain, spending time or money to cope today.</span></span></li>
+      <li><input type="checkbox" id="s2"><span class="ctxt"><b>I can use AI as a team to help me build</b><span>Researcher, PM, designer, engineer, QA — all run through AI.</span></span></li>
+      <li><input type="checkbox" id="s3"><span class="ctxt"><b>I can build and deploy a working MVP</b><span>A real, public URL that does something real.</span></span></li>
+      <li><input type="checkbox" id="s4"><span class="ctxt"><b>I can gather feedback and improve</b><span>Watch real people use it, then ship a better version.</span></span></li>
+      <li><input type="checkbox" id="s5"><span class="ctxt"><b>I can decide whether to continue or kill</b><span>Using evidence, not feelings.</span></span></li>
+      <li><input type="checkbox" id="s6"><span class="ctxt"><b>I shipped a real product with a public GitHub repo</b><span>Public work creates opportunities.</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- LOOP -->
+<section id="loop">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>The Builder Loop</h2></div>
+    <p class="sec-intro">Every project runs the same nine steps. Run it until it's second nature. The two steps most beginners skip — <b>Validate</b> and <b>Decide</b> — are exactly the ones that separate shipped products from abandoned ones, so this handbook gives each its own section.</p>
+    <div class="loop">
+      <div class="step"><span class="n">01</span><h4>Observe</h4><p>Watch real life. Friction is everywhere if you look.</p></div>
+      <div class="step"><span class="n">02</span><h4>Identify Problems</h4><p>Write down the pain in one sentence. Aim for 50.</p></div>
+      <div class="step"><span class="n">03</span><h4>Validate</h4><p>Get real commitment <em>before</em> you build. See §05.</p></div>
+      <div class="step"><span class="n">04</span><h4>Plan</h4><p>Name the product, the user, the smallest useful version.</p></div>
+      <div class="step"><span class="n">05</span><h4>Build</h4><p>Ship an MVP in 2–6 weeks with AI tools.</p></div>
+      <div class="step"><span class="n">06</span><h4>Test</h4><p>Find bugs and edge cases. Use AI as QA.</p></div>
+      <div class="step"><span class="n">07</span><h4>Launch</h4><p>Put it in front of real users on one channel.</p></div>
+      <div class="step"><span class="n">08</span><h4>Measure</h4><p>Wire analytics from day one. Watch what people actually do.</p></div>
+      <div class="step"><span class="n">09</span><h4>Decide</h4><p>Scale it, fix it, or kill it. See §09.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AI TEAM -->
+<section id="team">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Your AI Team</h2></div>
+    <p class="sec-intro">You're the founder. AI is your staff. The skill isn't typing prompts — it's <b>explaining what you want clearly</b>: give each "teammate" the background, the rules, and the goal, just like you'd tell a real person. (You’ll work in <b>ChatGPT</b> — every role here can run there.) <a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">Prompting tips →</a></p>
+    <div class="grid g3">
+      <div class="card"><span class="role-tool">ChatGPT</span><h3>Researcher</h3><p>Markets, competitors, idea generation, "what am I missing?"</p></div>
+      <div class="card"><span class="role-tool">ChatGPT</span><h3>Product Manager</h3><p>Define features, cut scope, write the plan, decide what comes first.</p></div>
+      <div class="card"><span class="role-tool">v0 / Figma</span><h3>Designer</h3><p>Generate layouts and screens — but you own taste. AI helps, you decide.</p></div>
+      <div class="card"><span class="role-tool">Codex</span><h3>Engineer</h3><p>Build features, fix bugs, explain code you don't understand yet.</p></div>
+      <div class="card"><span class="role-tool">ChatGPT</span><h3>QA Tester</h3><p>Find issues, write test plans, hunt for edge cases before users do.</p></div>
+      <div class="card"><span class="role-tool">ChatGPT</span><h3>Marketing</h3><p>Launch copy, summaries, content for your one channel.</p></div>
+    </div>
+    <div class="editor-note">
+      <span class="lbl">Mentor note · taste isn't delegable</span>
+      <p>Use AI for engineering, research, and first drafts. Don't outsource <b>taste</b> on anything users see — design, naming, the core feel of the product. That's the founder's job, and it's the thing AI is worst at. Decide; then let AI execute.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>The Tool Stack</h2></div>
+    <p class="sec-intro">Here's the toolkit. You don't need all of it on day one — start with the <span style="color:var(--accent)">required</span> tools and add the rest only when a project actually needs them. Most of it has a free tier that’s plenty for a first build.</p>
+
+    <div class="callout">
+      <span class="lbl">Do this first · free pro tools for students</span>
+      <p>If the intern is enrolled in school (13+), apply for the <a href="https://education.github.com/pack" target="_blank" rel="noopener">GitHub Student Developer Pack</a> on day one. It bundles dozens of paid tools for free while verified — including <a href="https://github.com/features/copilot" target="_blank" rel="noopener">GitHub Copilot Pro</a>, JetBrains IDEs, cloud credits, and a free domain via Namecheap. Verification with a school email is usually instant.</p>
+    </div>
+
+    <div class="subhead">Required — start here</div>
+    <div class="grid" style="gap:14px">
+      <div class="tool">
+        <div class="ic">AI</div>
+        <div class="body">
+          <div class="top"><h4>ChatGPT</h4><span class="pill req">Required</span><span class="pill free">ChatGPT Plus</span></div>
+          <p>Your everyday thinking partner: research, planning, QA, writing, and help with bugs. This is home base for the whole team-of-AI workflow. A ChatGPT Plus plan covers it (and includes Codex below).</p>
+          <div class="links"><a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com ↗</a></div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="ic">&gt;_</div>
+        <div class="body">
+          <div class="top"><h4>Codex</h4><span class="pill req">Required</span><span class="pill free">In ChatGPT Plus</span></div>
+          <p>OpenAI's coding helper. It reads your project, plans, and writes/edits the code for you — from the terminal, a code editor, or the cloud. It's <b>included free in ChatGPT Plus</b> (heavy days can hit a usage cap; if so, use Copilot or Cursor below as a free backup).</p>
+          <div class="links"><a href="https://developers.openai.com/codex" target="_blank" rel="noopener">Get started ↗</a><a href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" target="_blank" rel="noopener">How it works ↗</a></div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="ic">Git</div>
+        <div class="body">
+          <div class="top"><h4>GitHub</h4><span class="pill req">Required</span><span class="pill free">Free</span></div>
+          <p>Source control + your public portfolio. Every project lives here with a README and screenshots. <a href="https://docs.github.com/en/pages" target="_blank" rel="noopener">GitHub Pages</a> can host static sites for free.</p>
+          <div class="links"><a href="https://github.com" target="_blank" rel="noopener">github.com ↗</a><a href="https://docs.github.com/en/get-started/quickstart" target="_blank" rel="noopener">Quickstart ↗</a></div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="ic">▲</div>
+        <div class="body">
+          <div class="top"><h4>Vercel</h4><span class="pill req">Required</span><span class="pill free">Free tier</span></div>
+          <p>One-click deploy and hosting. Connect your GitHub repo and every push goes live at a public URL — that's how you get the "public URL" deliverable. The free tier is plenty for an MVP.</p>
+          <div class="links"><a href="https://vercel.com" target="_blank" rel="noopener">vercel.com ↗</a><a href="https://vercel.com/docs/getting-started-with-vercel" target="_blank" rel="noopener">Get started ↗</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subhead">App stack — when you build something real</div>
+    <div class="grid g2" style="gap:14px">
+      <div class="tool"><div class="ic">N</div><div class="body"><div class="top"><h4>Next.js</h4><span class="pill opt">Framework</span></div><p>The default web framework for AI-built apps. The <a href="https://nextjs.org/learn" target="_blank" rel="noopener">free interactive course</a> is the fastest way to learn it.</p><div class="links"><a href="https://nextjs.org" target="_blank" rel="noopener">nextjs.org ↗</a></div></div></div>
+      <div class="tool"><div class="ic">N</div><div class="body"><div class="top"><h4>Neon</h4><span class="pill opt">Database</span><span class="pill free">Free tier</span></div><p>A Postgres database in the cloud, for when your app needs to <em>save</em> things (scores, sign-ups, posts). Your first MVP may not need a database at all — add it only when you do.</p><div class="links"><a href="https://neon.tech" target="_blank" rel="noopener">neon.tech ↗</a><a href="https://neon.tech/docs/get-started-with-neon/signing-up" target="_blank" rel="noopener">Get started ↗</a></div></div></div>
+      <div class="tool"><div class="ic">v0</div><div class="body"><div class="top"><h4>v0</h4><span class="pill opt">UI generation</span><span class="pill free">Free tier</span></div><p>Describe a UI, get working React. Great for first drafts and landing pages. (Formerly v0.dev.)</p><div class="links"><a href="https://v0.app" target="_blank" rel="noopener">v0.app ↗</a></div></div></div>
+      <div class="tool"><div class="ic">$</div><div class="body"><div class="top"><h4>Stripe</h4><span class="pill opt">Payments</span></div><p>Take real money. Use <a href="https://docs.stripe.com/test-mode" target="_blank" rel="noopener">test mode</a> while building. Charging early is a feature, not a milestone — see §05.</p><div class="links"><a href="https://stripe.com" target="_blank" rel="noopener">stripe.com ↗</a></div></div></div>
+      <div class="tool"><div class="ic">AI</div><div class="body"><div class="top"><h4>Vercel AI SDK</h4><span class="pill opt">AI features</span></div><p>Add AI to your product without locking to one provider. Swap models freely; survive a price change.</p><div class="links"><a href="https://ai-sdk.dev" target="_blank" rel="noopener">ai-sdk.dev ↗</a><a href="https://openrouter.ai" target="_blank" rel="noopener">OpenRouter ↗</a></div></div></div>
+      <div class="tool"><div class="ic">⌖</div><div class="body"><div class="top"><h4>Cursor</h4><span class="pill opt">AI code editor</span><span class="pill free">Free tier</span></div><p>An AI-powered code editor. A good backup or companion to Codex if you prefer writing code in an editor instead of the terminal.</p><div class="links"><a href="https://cursor.com" target="_blank" rel="noopener">cursor.com ↗</a></div></div></div>
+    </div>
+
+    <div class="subhead">Design & measurement</div>
+    <div class="grid g3" style="gap:14px">
+      <div class="tool"><div class="ic">M</div><div class="body"><div class="top"><h4>Mobbin</h4><span class="pill opt">Inspiration</span></div><p>Thousands of real app screens. Steal structure, not pixels.</p><div class="links"><a href="https://mobbin.com" target="_blank" rel="noopener">mobbin.com ↗</a></div></div></div>
+      <div class="tool"><div class="ic">F</div><div class="body"><div class="top"><h4>Figma</h4><span class="pill opt">Design</span><span class="pill free">Free tier</span></div><p>Sketch flows and screens before you build them.</p><div class="links"><a href="https://figma.com" target="_blank" rel="noopener">figma.com ↗</a></div></div></div>
+      <div class="tool"><div class="ic">P</div><div class="body"><div class="top"><h4>PostHog</h4><span class="pill opt">Analytics</span><span class="pill free">Free tier</span></div><p>See what users actually do. Wire it in <em>before</em> launch, not after.</p><div class="links"><a href="https://posthog.com" target="_blank" rel="noopener">posthog.com ↗</a><a href="https://plausible.io" target="_blank" rel="noopener">Plausible ↗</a></div></div></div>
+    </div>
+
+    <div class="subhead">Organize &amp; track your work</div>
+    <div class="grid g2" style="gap:14px">
+      <div class="tool"><div class="ic">No</div><div class="body"><div class="top"><h4>Notion</h4><span class="pill req">Recommended</span><span class="pill free">Free</span></div><p>One home for all your writing: the Problem Bank, the briefs, the product plan, and your daily Builder Journal. Keep everything in one place instead of loose docs.</p><div class="links"><a href="https://www.notion.com" target="_blank" rel="noopener">notion.com ↗</a></div></div></div>
+      <div class="tool"><div class="ic">✓</div><div class="body"><div class="top"><h4>GitHub Issues</h4><span class="pill req">Recommended</span><span class="pill free">Free</span></div><p>A simple to-do list for your code, built right into your GitHub repo. Write down each bug or feature as an "issue," then check it off. That's all the task-tracking a solo project needs.</p><div class="links"><a href="https://docs.github.com/en/issues" target="_blank" rel="noopener">how to use ↗</a></div></div></div>
+    </div>
+    <p style="color:var(--ink-dim);margin-top:14px;font-size:15.5px;"><b style="color:var(--ink)">Later, if you're curious:</b> <a href="https://linear.app" target="_blank" rel="noopener">Linear</a> is the task tracker professional software teams use. It's worth seeing once you've shipped something — but skip it for now. For a first solo build, a fancy tracker just slows you down. Tools should help you ship, not give you something to fiddle with instead of building.</p>
+  </div>
+</section>
+
+<!-- BEFORE YOU START -->
+<section id="setup">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Before You Start</h2></div>
+    <p class="sec-intro">Twenty minutes of housekeeping that saves hours later. Knock these out in week 1.</p>
+
+    <div class="subhead">Accounts to create</div>
+    <ul class="checklist" data-group="setup">
+      <li><input type="checkbox" id="a1"><span class="ctxt"><b>GitHub account + Student Developer Pack</b><span>Sign up at github.com, then apply at education.github.com/pack with a school email.</span></span></li>
+      <li><input type="checkbox" id="a2"><span class="ctxt"><b>ChatGPT account (with Plus)</b><span>Your AI team's home base — and it includes Codex for coding.</span></span></li>
+      <li><input type="checkbox" id="a2b"><span class="ctxt"><b>Notion account</b><span>Where your Problem Bank, plans, and daily journal will live.</span></span></li>
+      <li><input type="checkbox" id="a3"><span class="ctxt"><b>Vercel account (free tier, sign in with GitHub)</b><span>So your projects can go live at a public URL with one click.</span></span></li>
+      <li><input type="checkbox" id="a4"><span class="ctxt"><b>Node.js 18+ installed + Codex working</b><span>Run <code style="font-family:var(--mono);color:var(--accent)">node --version</code> to check, then set up Codex and sign in with your ChatGPT account.</span></span></li>
+      <li><input type="checkbox" id="a5"><span class="ctxt"><b>First "hello world" deployed to a public URL</b><span>Week 1 win condition. Prove the whole pipeline works before you even have an idea.</span></span></li>
+    </ul>
+
+    <div class="callout">
+      <span class="lbl">Ground rules · money & safety</span>
+      <ul>
+        <li><b>Stay on free tiers.</b> Everything required here is free for an MVP. Get mentor sign-off before any paid plan or ad spend.</li>
+        <li><b>Never commit secrets.</b> API keys, passwords, and tokens go in a <code style="font-family:var(--mono);color:var(--accent)">.env</code> file that is git-ignored — never pasted into code that gets pushed to a public repo.</li>
+        <li><b>Don't ship other people's data or copyrighted assets.</b> Use your own content, free-license images, and placeholder data.</li>
+        <li><b>Age-gated tools.</b> Some services require 13+ (GitHub) or 18+. If under 18, get a parent/guardian to approve any account that asks for it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- KILL CHECK -->
+<section id="killcheck">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Validate Before You Build</h2></div>
+    <p class="sec-intro">The biggest mistake beginners make is building something nobody wanted. Two tools stop that: a <b>60-second kill check</b> to pressure-test an idea, and a <b>validation rule</b> to get proof before writing real code. Both come straight from the PlayLabs Playbook.</p>
+
+    <div class="subhead">The 60-second kill check — toggle each answer</div>
+    <div class="killcheck">
+      <div class="kc-q" data-kc>
+        <div class="kc-toggle"><button class="yes">Yes</button><button class="no">No</button></div>
+        <div class="qt"><b>Domain edge</b><span>Are you (or a friend) already the customer, or do you have a way to reach them others don't?</span></div>
+      </div>
+      <div class="kc-q" data-kc>
+        <div class="kc-toggle"><button class="yes">Yes</button><button class="no">No</button></div>
+        <div class="qt"><b>Existing pain + budget</b><span>Are people spending time or money today, in some clunky way, to solve this?</span></div>
+      </div>
+      <div class="kc-q" data-kc>
+        <div class="kc-toggle"><button class="yes">Yes</button><button class="no">No</button></div>
+        <div class="qt"><b>First dollar in ≤90 days</b><span>Could you charge a real person real money within 90 days of starting?</span></div>
+      </div>
+      <div class="kc-q" data-kc>
+        <div class="kc-toggle"><button class="yes">Yes</button><button class="no">No</button></div>
+        <div class="qt"><b>Build in ≤6 weeks</b><span>Can you ship a usable v1 in 2–6 weeks with AI tools — no exotic infrastructure?</span></div>
+      </div>
+      <div class="kc-q" data-kc>
+        <div class="kc-toggle"><button class="yes">Yes</button><button class="no">No</button></div>
+        <div class="qt"><b>One channel for 12 months</b><span>Is there a single way to reach users (Reddit, YouTube, a community, a marketplace) you could obsess over for a year?</span></div>
+      </div>
+      <div class="kc-q" data-kc>
+        <div class="kc-toggle"><button class="yes">Yes</button><button class="no">No</button></div>
+        <div class="qt"><b>A real comp exists</b><span>Can you name someone who built something adjacent in the last 2 years that actually made money?</span></div>
+      </div>
+      <div class="kc-result">
+        <span class="kc-score" id="kcScore">0/6</span>
+        <span class="kc-verdict" id="kcVerdict" style="background:var(--line);color:var(--ink-dim);">Answer the questions</span>
+        <span class="kc-msg" id="kcMsg">6/6 → run with it. 5/6 → proceed, but stay skeptical about the missing leg. 4 or fewer → write it down and walk away. Come back in six months.</span>
+      </div>
+    </div>
+
+    <div class="subhead">The validation rule — money (or commitment) before code</div>
+    <div class="callout">
+      <span class="lbl">Pick one. Never skip this step.</span>
+      <ul>
+        <li><b>Pre-sale / waitlist.</b> Put up a landing page, ask people to commit a deposit or sign up with intent.</li>
+        <li><b>Commitment metric.</b> Get 10+ real people to commit a date, a deposit, or a calendared session.</li>
+        <li><b>Manual delivery.</b> Deliver the service by hand for your first 5 users before building anything.</li>
+      </ul>
+      <p style="margin-top:12px;color:var(--ink);"><b>The test:</b> if you can't get ~5 real commitments in two weeks of trying, the idea is wrong — not your marketing. Kill it and move on. "Would you use this?" surveys and free signups don't count. Only commitment counts.</p>
+    </div>
+    <div class="editor-note">
+      <span class="lbl">Mentor note · for the studio's real ideas</span>
+      <p>When the intern graduates to scoring a serious idea (or a studio one), run it through the full PlayLabs rubric, not just this kill check — the Track A / Track B scoring and the founder comp table live in the studio playbook. The kill check is the fast filter; the rubric is the real decision.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section id="deliverables">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Deliverables</h2></div>
+    <p class="sec-intro">Eight artifacts by the end of six weeks. Check each as it's done — your progress bar at the top tracks the whole handbook.</p>
+    <ul class="checklist" data-group="deliverables">
+      <li><input type="checkbox" id="d1"><span class="ctxt"><b>1 · Problem Bank — 50+ problems</b><span>One sentence each, from school, friends, gaming, sports, family, online communities. Problems, not solutions.</span></span></li>
+      <li><input type="checkbox" id="d2"><span class="ctxt"><b>2 · Opportunity Brief (1 page)</b><span>Problem · target user · existing alternatives · why it matters · why now.</span></span></li>
+      <li><input type="checkbox" id="d3"><span class="ctxt"><b>3 · Product Plan (2 pages)</b><span>Product name · user story · MVP features · future ideas.</span></span></li>
+      <li><input type="checkbox" id="d4"><span class="ctxt"><b>4 · Working MVP</b><span>Public URL · real functionality · demoable. No payments/accounts/infra required.</span></span></li>
+      <li><input type="checkbox" id="d5"><span class="ctxt"><b>5 · Public GitHub repo</b><span>README · screenshots · project description.</span></span></li>
+      <li><input type="checkbox" id="d6"><span class="ctxt"><b>6 · Builder Journal (daily)</b><span>One sentence each: what did I build? what did I learn? what am I stuck on?</span></span></li>
+      <li><input type="checkbox" id="d7"><span class="ctxt"><b>7 · Final Presentation (10–15 min)</b><span>Problem · solution · live demo · lessons · what's next.</span></span></li>
+      <li><input type="checkbox" id="d8"><span class="ctxt"><b>8 · Final Blog Post</b><span>What you built, why, what worked, what failed, what you learned. AI may assist.</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- WEEKS -->
+<section id="weeks">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">07</span><h2>The Six Weeks</h2></div>
+    <p class="sec-intro">Each week has one win condition. Hit it before moving on. Check the box when you do.</p>
+
+    <div class="week">
+      <div class="wno"><div class="num">1</div><div class="lbl">Become a Builder</div></div>
+      <div class="wbody"><h4>Learn the tools</h4><p class="goals">Set up accounts · create GitHub · get Codex running · deploy your first "hello world" · understand the AI workflow.</p>
+      <div class="win"><span class="lbl">Win</span><label data-group="weeks"><input type="checkbox" id="w1">Something public is deployed</label></div></div>
+    </div>
+    <div class="week">
+      <div class="wno"><div class="num">2</div><div class="lbl">Find Problems</div></div>
+      <div class="wbody"><h4>Build the Problem Bank</h4><p class="goals">Observe real life · collect 50+ problems · learn to spot opportunities · narrow to your top five.</p>
+      <div class="win"><span class="lbl">Win</span><label data-group="weeks"><input type="checkbox" id="w2">Top five ideas selected</label></div></div>
+    </div>
+    <div class="week">
+      <div class="wno"><div class="num">3</div><div class="lbl">Choose & Validate</div></div>
+      <div class="wbody"><h4>Pick one product</h4><p class="goals">Run ideas through the kill check (§05) · validate with real commitment · write the Opportunity Brief and Product Plan · define the MVP.</p>
+      <div class="win"><span class="lbl">Win</span><label data-group="weeks"><input type="checkbox" id="w3">Clear MVP defined + validated</label></div></div>
+    </div>
+    <div class="week">
+      <div class="wno"><div class="num">4</div><div class="lbl">Build MVP</div></div>
+      <div class="wbody"><h4>Make working software</h4><p class="goals">Build with AI · deploy continuously · wire analytics from day one · solve problems independently (ask AI before giving up).</p>
+      <div class="win"><span class="lbl">Win</span><label data-group="weeks"><input type="checkbox" id="w4">A usable MVP exists</label></div></div>
+    </div>
+    <div class="week">
+      <div class="wno"><div class="num">5</div><div class="lbl">Feedback</div></div>
+      <div class="wbody"><h4>Put it in front of people</h4><p class="goals">Find testers · watch them use it (don't explain — just watch) · fix the top problems · ship v2.</p>
+      <div class="win"><span class="lbl">Win</span><label data-group="weeks"><input type="checkbox" id="w5">Version 2 released</label></div></div>
+    </div>
+    <div class="week">
+      <div class="wno"><div class="num">6</div><div class="lbl">Launch & Reflect</div></div>
+      <div class="wbody"><h4>Ship it for real</h4><p class="goals">Public launch on your one channel · final docs · write the blog post · deliver the presentation.</p>
+      <div class="win"><span class="lbl">Win</span><label data-group="weeks"><input type="checkbox" id="w6">Product shipped + demo done</label></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY -->
+<section id="daily">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">08</span><h2>The Daily Routine</h2></div>
+    <p class="sec-intro">A simple rhythm. The goal of every single day: <b>one meaningful improvement</b> to the project.</p>
+    <div class="grid g3">
+      <div class="card"><span class="role-tool">Morning · ~60 min</span><h3>Standup</h3><p>Meet with mentor. Review progress, blockers, and today's single goal.</p></div>
+      <div class="card"><span class="role-tool">Midday · build block</span><h3>Build Session</h3><p>Independent work. Move the project forward by at least one real step.</p></div>
+      <div class="card"><span class="role-tool">Afternoon · ~30 min</span><h3>Review</h3><p>Meet with mentor. What happened, what you learned, what's next.</p></div>
+    </div>
+    <p style="color:var(--ink-dim);margin-top:18px;font-size:16px;">Then: a <b>journal entry</b> in under five minutes — build / learn / stuck, one sentence each.</p>
+
+    <div class="editor-note">
+      <span class="lbl">Mentor note · scale the cadence to reality</span>
+      <p>Two live mentor meetings a day (~90 min) is a lot for a working founder to sustain for six weeks. A lighter-touch version that often works better: a written async standup each morning (the intern posts goal + blockers in a shared doc or chat), one short live sync mid-afternoon, and <b>two or three longer working sessions per week</b> for the hard stuff.</p>
+      <p>The non-negotiables are the daily journal and the daily "one meaningful improvement." Protect those; flex the meetings.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DECIDE -->
+<section id="decide">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">09</span><h2>Decide: Keep or Kill</h2></div>
+    <p class="sec-intro">The loop ends in a decision, made on evidence. Most projects should be killed — that's normal and healthy. Experienced builders ship many and quit fast; a ~5% hit rate is the rule, not a sign of failure. The skill is killing without grief.</p>
+    <div class="twocol">
+      <div class="decide-box keep">
+        <h4>↗ Signs to keep going</h4>
+        <ul>
+          <li>People come back unprompted (some real retention).</li>
+          <li>At least a few users would be annoyed if it disappeared.</li>
+          <li>You hit your validation commitments (deposits, sign-ups, usage).</li>
+          <li>You can name the one channel that's working.</li>
+          <li>The value prop is getting clearer, not blurrier.</li>
+        </ul>
+      </div>
+      <div class="decide-box kill">
+        <h4>↘ Signs to kill (and that's fine)</h4>
+        <ul>
+          <li>No momentum after a real, honest push.</li>
+          <li>You still can't explain the value in one sentence.</li>
+          <li>The target user keeps getting broader ("everyone").</li>
+          <li>You're only continuing because of sunk cost / attachment.</li>
+          <li>"Build it and they will come" is your actual plan.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="editor-note">
+      <span class="lbl">Mentor note</span>
+      <p>For the internship, "shipped and learned" is the win — not "made money." A killed product with a sharp blog post on <em>why</em> it died is a successful internship. Falling in love with the idea kills more projects than any technical mistake; name the kill criteria <b>before</b> you build, so the decision is honest when it arrives.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section id="rules">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">10</span><h2>The Rules</h2></div>
+    <div class="rules">
+      <div class="rule"><span class="rn">1</span><p>Ship before perfect.</p></div>
+      <div class="rule"><span class="rn">2</span><p>Ask AI before giving up.</p></div>
+      <div class="rule"><span class="rn">3</span><p>Learn by building.</p></div>
+      <div class="rule"><span class="rn">4</span><p>Problems matter more than ideas.</p></div>
+      <div class="rule"><span class="rn">5</span><p>Validate with commitment, not opinions.</p></div>
+      <div class="rule"><span class="rn">6</span><p>Pick one channel. Obsess.</p></div>
+      <div class="rule"><span class="rn">7</span><p>Public work creates opportunities.</p></div>
+      <div class="rule"><span class="rn">8</span><p>Document everything.</p></div>
+      <div class="rule"><span class="rn">9</span><p>Finish what you start — or kill it on purpose.</p></div>
+      <div class="rule"><span class="rn">10</span><p>Niche down. "Everyone" is nobody.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">11</span><h2>Resources & Links</h2></div>
+    <p class="sec-intro">Everything in one place. Bookmark this section.</p>
+
+    <div class="res-group">
+      <h3>AI & coding</h3>
+      <div class="res-list">
+        <div class="res"><span class="nm">ChatGPT<small>Your AI team home base</small></span><a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com ↗</a></div>
+        <div class="res"><span class="nm">Codex<small>Coding helper (in ChatGPT Plus)</small></span><a href="https://developers.openai.com/codex" target="_blank" rel="noopener">get started ↗</a></div>
+        <div class="res"><span class="nm">Prompting tips<small>Explain tasks to AI clearly</small></span><a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">guide ↗</a></div>
+        <div class="res"><span class="nm">GitHub Copilot<small>Free backup coder (students)</small></span><a href="https://github.com/features/copilot" target="_blank" rel="noopener">copilot ↗</a></div>
+        <div class="res"><span class="nm">Cursor<small>AI code editor (free tier)</small></span><a href="https://cursor.com" target="_blank" rel="noopener">cursor.com ↗</a></div>
+      </div>
+    </div>
+
+    <div class="res-group">
+      <h3>Build, deploy & host</h3>
+      <div class="res-list">
+        <div class="res"><span class="nm">GitHub<small>Code + portfolio</small></span><a href="https://github.com" target="_blank" rel="noopener">github.com ↗</a></div>
+        <div class="res"><span class="nm">Student Developer Pack<small>Free pro tools (13+)</small></span><a href="https://education.github.com/pack" target="_blank" rel="noopener">apply ↗</a></div>
+        <div class="res"><span class="nm">Vercel<small>One-click deploy</small></span><a href="https://vercel.com" target="_blank" rel="noopener">vercel.com ↗</a></div>
+        <div class="res"><span class="nm">Next.js Learn<small>Free interactive course</small></span><a href="https://nextjs.org/learn" target="_blank" rel="noopener">learn ↗</a></div>
+        <div class="res"><span class="nm">Neon<small>Postgres database (free tier)</small></span><a href="https://neon.tech" target="_blank" rel="noopener">neon.tech ↗</a></div>
+        <div class="res"><span class="nm">v0<small>Generate UI from prompts</small></span><a href="https://v0.app" target="_blank" rel="noopener">v0.app ↗</a></div>
+        <div class="res"><span class="nm">Stripe<small>Payments (test mode)</small></span><a href="https://docs.stripe.com/test-mode" target="_blank" rel="noopener">docs ↗</a></div>
+        <div class="res"><span class="nm">Notion<small>Docs, plans &amp; journal</small></span><a href="https://www.notion.com" target="_blank" rel="noopener">notion.com ↗</a></div>
+        <div class="res"><span class="nm">GitHub Issues<small>Simple task tracker</small></span><a href="https://docs.github.com/en/issues" target="_blank" rel="noopener">how-to ↗</a></div>
+        <div class="res"><span class="nm">Vercel AI SDK<small>AI features, multi-provider</small></span><a href="https://ai-sdk.dev" target="_blank" rel="noopener">ai-sdk.dev ↗</a></div>
+      </div>
+    </div>
+
+    <div class="res-group">
+      <h3>Design & measure</h3>
+      <div class="res-list">
+        <div class="res"><span class="nm">Mobbin<small>Real app screens</small></span><a href="https://mobbin.com" target="_blank" rel="noopener">mobbin.com ↗</a></div>
+        <div class="res"><span class="nm">Figma<small>Design & prototyping</small></span><a href="https://figma.com" target="_blank" rel="noopener">figma.com ↗</a></div>
+        <div class="res"><span class="nm">PostHog<small>Product analytics</small></span><a href="https://posthog.com" target="_blank" rel="noopener">posthog.com ↗</a></div>
+        <div class="res"><span class="nm">Plausible<small>Simple web analytics</small></span><a href="https://plausible.io" target="_blank" rel="noopener">plausible.io ↗</a></div>
+      </div>
+    </div>
+
+    <div class="res-group">
+      <h3>Talk to users & find your channel</h3>
+      <div class="res-list">
+        <div class="res"><span class="nm">The Mom Test<small>How to talk to users honestly</small></span><a href="https://www.momtestbook.com" target="_blank" rel="noopener">momtestbook.com ↗</a></div>
+        <div class="res"><span class="nm">F5Bot<small>Free Reddit/HN keyword alerts</small></span><a href="https://f5bot.com" target="_blank" rel="noopener">f5bot.com ↗</a></div>
+        <div class="res"><span class="nm">OpenAI prompt examples<small>Ready-made prompts to learn from</small></span><a href="https://platform.openai.com/docs/examples" target="_blank" rel="noopener">examples ↗</a></div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn" onclick="window.print()">Print / Save PDF</button>
+      <button class="btn" id="resetBtn">Reset my progress</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="big">Ship something <b>real</b>.</div>
+    <p>PlayLabs Studio · Intern Handbook 001 · v1.1</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var NS = "playlabs_handbook_v1_";
+  function safeGet(k){ try{ return localStorage.getItem(NS+k); }catch(e){ return null; } }
+  function safeSet(k,v){ try{ localStorage.setItem(NS+k,v); }catch(e){} }
+  function safeRemoveAll(){ try{ Object.keys(localStorage).filter(function(x){return x.indexOf(NS)===0;}).forEach(function(x){localStorage.removeItem(x);}); }catch(e){} }
+
+  /* ---- progress checkboxes ---- */
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.checklist input[type=checkbox], .week .win input[type=checkbox]'));
+  function updateProgress(){
+    var done = boxes.filter(function(b){return b.checked;}).length;
+    var pct = boxes.length ? Math.round(done/boxes.length*100) : 0;
+    document.getElementById('progFill').style.width = pct+'%';
+    document.getElementById('progPct').textContent = pct+'%';
+  }
+  boxes.forEach(function(b){
+    if(safeGet('chk_'+b.id)==='1'){ b.checked = true; }
+    var li = b.closest('li'); if(li && b.checked) li.classList.add('done');
+    b.addEventListener('change', function(){
+      safeSet('chk_'+b.id, b.checked ? '1':'0');
+      var li = b.closest('li'); if(li) li.classList.toggle('done', b.checked);
+      updateProgress();
+    });
+  });
+  updateProgress();
+
+  /* ---- kill check ---- */
+  var qs = Array.prototype.slice.call(document.querySelectorAll('[data-kc]'));
+  function renderKC(){
+    var answered=0, yes=0;
+    qs.forEach(function(q,i){
+      var v = safeGet('kc_'+i);
+      var yb=q.querySelector('.yes'), nb=q.querySelector('.no');
+      yb.classList.toggle('on', v==='y');
+      nb.classList.toggle('on', v==='n');
+      if(v==='y'){answered++;yes++;}
+      else if(v==='n'){answered++;}
+    });
+    var scoreEl=document.getElementById('kcScore'),
+        vEl=document.getElementById('kcVerdict'),
+        mEl=document.getElementById('kcMsg');
+    scoreEl.textContent = yes+'/6';
+    if(answered<6){
+      vEl.textContent='Answer all six';
+      vEl.style.background='var(--line)'; vEl.style.color='var(--ink-dim)';
+      mEl.textContent='6/6 → run with it. 5/6 → proceed, but stay skeptical about the missing leg. 4 or fewer → write it down and walk away.';
+    } else if(yes===6){
+      vEl.textContent='Run with it'; vEl.style.background='var(--good)'; vEl.style.color='#14120D';
+      mEl.textContent='All six clear. Move to validation — get real commitment before you write real code.';
+    } else if(yes===5){
+      vEl.textContent='Proceed, carefully'; vEl.style.background='var(--accent)'; vEl.style.color='#14120D';
+      mEl.textContent='Strong, but one leg is weak. Proceed only if you have a concrete plan to fix the "No" — otherwise it will sink you later.';
+    } else {
+      vEl.textContent='Walk away'; vEl.style.background='var(--bad)'; vEl.style.color='#14120D';
+      mEl.textContent='Four or fewer. Write the idea down and come back in six months. Don\u2019t fall in love with it.';
+    }
+  }
+  qs.forEach(function(q,i){
+    q.querySelector('.yes').addEventListener('click',function(){ safeSet('kc_'+i, safeGet('kc_'+i)==='y'?'':'y'); renderKC(); });
+    q.querySelector('.no').addEventListener('click',function(){ safeSet('kc_'+i, safeGet('kc_'+i)==='n'?'':'n'); renderKC(); });
+  });
+  renderKC();
+
+  /* ---- reset ---- */
+  document.getElementById('resetBtn').addEventListener('click',function(){
+    if(confirm('Clear all your checkboxes and kill-check answers on this device?')){
+      safeRemoveAll();
+      boxes.forEach(function(b){b.checked=false;var li=b.closest('li');if(li)li.classList.remove('done');});
+      updateProgress(); renderKC();
+    }
+  });
+})();
+</script>
+</body>
+</html>
